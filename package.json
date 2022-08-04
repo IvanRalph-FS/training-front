@@ -1,13 +1,17 @@
 {
-    "name": "vue-3-pinia-registration-login-example",
+    "name": "trainig-frontend",
     "version": "0.0.0",
     "scripts": {
-        "dev": "vite",
+        "dev": "vue-cli-service serve",
+        "vite": "vite --host",
         "build": "vite build",
         "preview": "vite preview --port 5050",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^35.0.1",
+        "@ckeditor/ckeditor5-vue": "^4.0.1",
+        "@vue/cli-service": "^5.0.8",
         "pinia": "^2.0.13",
         "vee-validate": "^4.5.11",
         "vue": "^3.2.33",

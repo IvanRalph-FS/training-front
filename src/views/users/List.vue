@@ -1,12 +1,14 @@
 <script setup>
 import { storeToRefs } from 'pinia';
+import {useRoute} from "vue-router";
 
 import { useUsersStore } from '@/stores';
 
 const usersStore = useUsersStore();
+const route = useRoute();
 const { users } = storeToRefs(usersStore);
 
-usersStore.getAll();
+usersStore.getAll(route.query.page ?? '');
 </script>
 
 <template>
@@ -17,15 +19,17 @@ usersStore.getAll();
             <tr>
                 <th style="width: 30%">First Name</th>
                 <th style="width: 30%">Last Name</th>
+                <th style="width: 30%">Role</th>
                 <th style="width: 30%">Username</th>
                 <th style="width: 10%"></th>
             </tr>
         </thead>
         <tbody>
-            <template v-if="users.length">
-                <tr v-for="user in users" :key="user.id">
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.lastName }}</td>
+            <template v-if="users.data?.length">
+                <tr v-for="user in users.data" :key="user.id">
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.role ? 'Admin' : 'User' }}</td>
                     <td>{{ user.username }}</td>
                     <td style="white-space: nowrap">
                         <router-link :to="`/users/edit/${user.id}`" class="btn btn-sm btn-primary mr-1">Edit</router-link>
@@ -48,4 +52,9 @@ usersStore.getAll();
             </tr>            
         </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li v-if="users.meta" v-for="link in users?.meta.links" class="page-item"><a class="page-link" :href="link.url" v-html="link.label"></a></li>
+        </ul>
+    </nav>
 </template>

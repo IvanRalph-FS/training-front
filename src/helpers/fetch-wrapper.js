@@ -8,15 +8,30 @@ export const fetchWrapper = {
 };
 
 function request(method) {
-    return (url, body) => {
+    return (url, body, hasFile = false) => {
         const requestOptions = {
             method,
             headers: authHeader(url)
         };
+
+        requestOptions.headers['Accept'] = 'application/json';
+
         if (body) {
-            requestOptions.headers['Content-Type'] = 'application/json';
-            requestOptions.body = JSON.stringify(body);
+            if (hasFile) {
+                let formData = new FormData();
+
+                for (var key in body) {
+                    console.log(body[key]);
+                    formData.append(key, body[key]);
+                }
+
+                requestOptions.body = formData;
+            } else {
+                requestOptions.headers['Content-Type'] = 'application/json';
+                requestOptions.body = JSON.stringify(body);
+            }
         }
+
         return fetch(url, requestOptions).then(handleResponse);
     }
 }

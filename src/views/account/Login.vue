@@ -18,7 +18,7 @@ async function onSubmit(values) {
 
 <template>
     <div class="card m-3">
-        <h4 class="card-header">Login</h4>
+        <h4 class="card-header">Login test</h4>
         <div class="card-body">
             <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                 <div class="form-group">

@@ -22,12 +22,14 @@ if (id) {
 }
 
 const schema = Yup.object().shape({
-    firstName: Yup.string()
+    first_name: Yup.string()
         .required('First Name is required'),
-    lastName: Yup.string()
+    last_name: Yup.string()
         .required('Last Name is required'),
     username: Yup.string()
         .required('Username is required'),
+    role : Yup.number()
+        .required('Role is required'),
     password: Yup.string()
         .transform(x => x === '' ? undefined : x)
         // password optional in edit mode
@@ -60,13 +62,13 @@ async function onSubmit(values) {
             <div class="form-row">
                 <div class="form-group col">
                     <label>First Name</label>
-                    <Field name="firstName" type="text" class="form-control" :class="{ 'is-invalid': errors.firstName }" />
-                    <div class="invalid-feedback">{{ errors.firstName }}</div>
+                    <Field name="first_name" type="text" class="form-control" :class="{ 'is-invalid': errors.first_name }" />
+                    <div class="invalid-feedback">{{ errors.first_name }}</div>
                 </div>
                 <div class="form-group col">
                     <label>Last Name</label>
-                    <Field name="lastName" type="text" class="form-control" :class="{ 'is-invalid': errors.lastName }" />
-                    <div class="invalid-feedback">{{ errors.lastName }}</div>
+                    <Field name="last_name" type="text" class="form-control" :class="{ 'is-invalid': errors.last_name }" />
+                    <div class="invalid-feedback">{{ errors.last_name }}</div>
                 </div>
             </div>
             <div class="form-row">
@@ -82,6 +84,18 @@ async function onSubmit(values) {
                     </label>
                     <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" />
                     <div class="invalid-feedback">{{ errors.password }}</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Role</label>
+                    <Field class="form-control" name="role" as="select" :class="{ 'is-invalid': errors.role }">
+                        <option value="">Select value</option>
+                        <option value="0">User</option>
+                        <option value="1">Admin</option>
+                    </Field>
+                    <div class="invalid-feedback">{{ errors.role }}</div>
+
                 </div>
             </div>
             <div class="form-group">

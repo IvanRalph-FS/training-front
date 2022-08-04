@@ -13,12 +13,12 @@ export const useUsersStore = defineStore({
     }),
     actions: {
         async register(user) {
-            await fetchWrapper.post(`${baseUrl}/register`, user);
+            await fetchWrapper.post(`${baseUrl}`, user);
         },
-        async getAll() {
+        async getAll(page = 1) {
             this.users = { loading: true };
             try {
-                this.users = await fetchWrapper.get(baseUrl);    
+                this.users = await fetchWrapper.get(`${baseUrl}?page=${page}`);
             } catch (error) {
                 this.users = { error };
             }
@@ -47,12 +47,12 @@ export const useUsersStore = defineStore({
         },
         async delete(id) {
             // add isDeleting prop to user being deleted
-            this.users.find(x => x.id === id).isDeleting = true;
+            this.users.data.find(x => x.id === id).isDeleting = true;
 
             await fetchWrapper.delete(`${baseUrl}/${id}`);
 
             // remove user from list after deleted
-            this.users = this.users.filter(x => x.id !== id);
+            this.users.data = this.users.data.filter(x => x.id !== id);
 
             // auto logout if the logged in user deleted their own record
             const authStore = useAuthStore();
